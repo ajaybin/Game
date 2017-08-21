@@ -1,10 +1,17 @@
 #include "ModelTex.h"
 
-ModelTex::ModelTex(int texture) {
-	this->texture = texture;
+ModelTex::ModelTex() {
 }
 
-unsigned int ModelTex::getTexture()
+void ModelTex::addTexture(unsigned int texture) {
+	this->texture.push_back(texture);
+}
+
+unsigned int ModelTex::getNumTextures() {
+	return (unsigned int)texture.size();
+}
+
+unsigned int ModelTex::getTexture(unsigned int index)
 {
-	return texture;
+	return texture.at(index);
 }

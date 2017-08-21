@@ -40,3 +40,7 @@ void ShaderProgram::start() {
 void ShaderProgram::end() {
 	glUseProgram(0);
 }
+
+void ShaderProgram::setInt(const char* name, int value) {
+	glUniform1i(glGetUniformLocation(shaderProgram, name), value);
+}

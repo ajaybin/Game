@@ -17,6 +17,11 @@ void framebuffer_resize_callback(GLFWwindow* window, int width, int height) {
 	glViewport(0, 0, width, height);
 }
 
+void processInput(GLFWwindow* window) {
+	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+		glfwSetWindowShouldClose(window, GL_TRUE);
+}
+
 int main() {
 
 	Renderer renderer;
@@ -57,14 +62,19 @@ int main() {
 	glfwSetFramebufferSizeCallback(window, framebuffer_resize_callback);
 
 	RawModel model = loader.loadObjIntoVAO(vertices, texCoords, indices);
-	ModelTex tex(loader.loadTexture("res/container.jpg"));
+	ModelTex tex;
+	tex.addTexture(loader.loadTexture("res/container.jpg"));
+	tex.addTexture(loader.loadTexture("res/awesomeface.png"));
 	TexturedModel texModel(model, tex);
 	StaticShader shader;
 	while(!glfwWindowShouldClose(window)) {
 		//Input
+		processInput(window);
 		//Render
 		renderer.prepare();
 		shader.start();
+		shader.setInt("textureSampler0", 0);
+		shader.setInt("textureSampler1", 1);
 		renderer.render(texModel);
 		shader.end();
 		//check event and swap buffers
@@ -75,5 +85,4 @@ int main() {
 	glfwTerminate();
 	return 0;
 }
-
 

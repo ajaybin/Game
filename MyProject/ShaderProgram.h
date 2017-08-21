@@ -14,5 +14,6 @@ public:
 	ShaderProgram(const char * vertexShaderSource, const char * fragmentShaderSource);
 	void start();
 	void end();
+	void setInt(const char * name, int value);
 };
 #endif

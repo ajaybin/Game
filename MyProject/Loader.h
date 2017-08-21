@@ -2,16 +2,15 @@
 #define LOADER_H
 #include <glad\glad.h>
 #include <RawModel.h>
-#include <deque>
 #include <vector>
 #include <stb_image.h>
 #include <iostream>
 using namespace std;
 
 class Loader {
-	std::deque<int> vaoQ;
-	std::deque<int> vboQ;
-	std::deque<int> textureQ;
+	std::vector<unsigned int> vaoQ;
+	std::vector<unsigned int> vboQ;
+	std::vector<unsigned int> textureQ;
 
 	unsigned int createVAO();
 

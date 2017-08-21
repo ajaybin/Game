@@ -1,4 +1,4 @@
-#include <Loader.h>
+#include "Loader.h"
 
 using namespace std;
 
@@ -38,16 +38,13 @@ void Loader::unbindIndicesBuffer() {
 }
 
 void Loader::cleanUp() {
-	for (std::deque<int>::iterator it = vaoQ.begin(); it != vaoQ.end(); it++) {
-		unsigned int VAO = *it;
+	for (unsigned int VAO : vaoQ) {
 		glDeleteVertexArrays(1, &VAO);
 	}
-	for (std::deque<int>::iterator it = vboQ.begin(); it != vboQ.end(); it++) {
-		unsigned int VBO = *it;
+	for (unsigned int VBO : vboQ) {
 		glDeleteBuffers(1, &VBO);
 	}
-	for (std::deque<int>::iterator it = textureQ.begin(); it != textureQ.end(); it++) {
-		unsigned int texture = *it;
+	for (unsigned int texture : textureQ) {
 		glDeleteTextures(1, &texture);
 	}
 }
@@ -55,7 +52,8 @@ void Loader::cleanUp() {
 unsigned int Loader::loadTexture(const char *fileName) {
 	int width, height, nrChannels;
 	unsigned int texture;
-	unsigned char *data = stbi_load(fileName, &width, &height, &nrChannels, 0);
+	unsigned char *data = stbi_load(fileName, &width, &height, &nrChannels, 3);
+	std::cout << "nrchannels : " << nrChannels << std::endl;
 	glGenTextures(1, &texture);
 	textureQ.push_back(texture);
 	glBindTexture(GL_TEXTURE_2D, texture);
@@ -71,6 +69,7 @@ unsigned int Loader::loadTexture(const char *fileName) {
 	else {
 		std::cout << "Failed to load texture from file" << fileName << std::endl;
 	}
+	glBindTexture(GL_TEXTURE_2D, 0);
 	stbi_image_free(data);
 	return texture;
 }
