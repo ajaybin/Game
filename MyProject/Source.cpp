@@ -11,7 +11,6 @@ using namespace std;
 
 const unsigned int WIDTH = 1280;
 const unsigned int HEIGHT = 720;
-const unsigned int LOGSIZE = 512;
 
 void framebuffer_resize_callback(GLFWwindow* window, int width, int height) {
 	glViewport(0, 0, width, height);
