@@ -11,7 +11,11 @@ glm::mat4 Maths::createModelMatrix(glm::vec3 translation, float angleX, float an
 	return modelMat;
 }
 
-glm::mat4 Maths::createProjectionMatrix() {
-	glm::mat4 projectionMatrix;
-	return projectionMatrix;
+glm::mat4 Maths::createProjectionMatrix(float fov, float aspectRatio, float near, float far) {
+#ifdef GLM_FORCE_RADIANS
+	return glm::perspective(glm::radians(fov), aspectRatio, near, far);
+#else
+	return glm::perspective(fov, aspectRatio, near, far);
+#endif
+
 }

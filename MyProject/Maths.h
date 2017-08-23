@@ -6,6 +6,6 @@
 class Maths {
 public:
 	static glm::mat4 createModelMatrix(glm::vec3 translation, float angleX, float angleY, float angleZ, glm::vec3 scale);
-	static glm::mat4 createProjectionMatrix();
+	static glm::mat4 createProjectionMatrix(float fov, float aspectRatio, float near, float far);
 };
 #endif

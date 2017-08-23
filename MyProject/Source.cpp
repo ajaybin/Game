@@ -65,12 +65,12 @@ int main() {
 	tex.addTexture(loader.loadTexture("res/container.jpg"));
 	tex.addTexture(loader.loadTexture("res/awesomeface.png"));
 	TexturedModel texModel(model, tex);
-	Entity entity(texModel, glm::vec3(0.0f, 0.0f, 0.0f), 0, 0, 0, glm::vec3(1.0f, 1.0f, 1.0f));
+	Entity entity(texModel, glm::vec3(0.0f, 0.0f, -1.0f), 0, 0, 0, glm::vec3(1.0f, 1.0f, 1.0f));
 	StaticShader shader;
-	Renderer renderer(shader);
+	Renderer renderer(shader, WIDTH, HEIGHT);
 	while(!glfwWindowShouldClose(window)) {
-		entity.changePosition(0.0f, 0.00002f, 0.0f);
-		entity.changeRotation(0.0f, 0.0f, 0.0001f);
+		entity.changePosition(0.0f, 0.0f, -0.0001f);
+		//entity.changeRotation(0.0f, 0.0f, 0.0001f);
 		//Input
 		processInput(window);
 		//Render

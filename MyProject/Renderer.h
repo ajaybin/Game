@@ -7,9 +7,11 @@
 #include <StaticShader.h>
 class Renderer {
 	StaticShader shader;
+	int width, height;
 public:
-	Renderer(StaticShader shader);
+	Renderer(StaticShader shader, int width, int height);
 	void prepare();
 	void render(Entity entity);
+	void setAspect(int width, int height);
 };
 #endif
