@@ -1,5 +1,5 @@
 R"(
-#version 400 core
+#version 330 core
 in vec2 passTexCoords;
 
 out vec4 fragColor;

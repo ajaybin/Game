@@ -7,6 +7,8 @@
 #include <StaticShader.h>
 #include <ModelTex.h>
 #include <TexturedModel.h>
+#include <Entity.h>
+#include <Maths.h>
 using namespace std;
 
 const unsigned int WIDTH = 1280;
@@ -23,9 +25,7 @@ void processInput(GLFWwindow* window) {
 
 int main() {
 
-	Renderer renderer;
 	Loader loader;
-
 	std::vector<float> vertices = {-0.5f, -0.5f, 0.0f,
 	                                0.5f, -0.5f, 0.0f,
 	                                0.5f,  0.5f, 0.0f,
@@ -37,8 +37,8 @@ int main() {
 	                                0.0f, 0.0f};
 
 	glfwInit();
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 #ifdef __APPLE__
 	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
@@ -65,16 +65,18 @@ int main() {
 	tex.addTexture(loader.loadTexture("res/container.jpg"));
 	tex.addTexture(loader.loadTexture("res/awesomeface.png"));
 	TexturedModel texModel(model, tex);
+	Entity entity(texModel, glm::vec3(0.0f, 0.0f, 0.0f), 0, 0, 0, glm::vec3(1.0f, 1.0f, 1.0f));
 	StaticShader shader;
+	Renderer renderer(shader);
 	while(!glfwWindowShouldClose(window)) {
+		entity.changePosition(0.0f, 0.00002f, 0.0f);
+		entity.changeRotation(0.0f, 0.0f, 0.0001f);
 		//Input
 		processInput(window);
 		//Render
 		renderer.prepare();
 		shader.start();
-		shader.setInt("textureSampler0", 0);
-		shader.setInt("textureSampler1", 1);
-		renderer.render(texModel);
+		renderer.render(entity);
 		shader.end();
 		//check event and swap buffers
 		glfwPollEvents();
