@@ -5,6 +5,8 @@
 #include <TexturedModel.h>
 #include <Entity.h>
 #include <StaticShader.h>
+#include <string>
+using namespace std;
 class Renderer {
 	StaticShader shader;
 	int width, height;
