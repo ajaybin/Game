@@ -150,6 +150,11 @@
     <Image Include="res\awesomeface.png" />
     <Image Include="res\container.jpg" />
   </ItemGroup>
+  <ItemGroup>
+    <Object Include="res\stall.obj">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </Object>
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

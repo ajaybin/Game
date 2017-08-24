@@ -1,11 +1,12 @@
 #ifndef RENDERER_H
 #define RENDERER_H
-#include <RawModel.h>
+#include <string>
 #include <glad\glad.h>
+#include <RawModel.h>
 #include <TexturedModel.h>
 #include <Entity.h>
+#include <Maths.h>
 #include <StaticShader.h>
-#include <string>
 using namespace std;
 class Renderer {
 	StaticShader shader;

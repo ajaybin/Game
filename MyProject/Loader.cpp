@@ -1,7 +1,5 @@
 #include "Loader.h"
 
-using namespace std;
-
 unsigned int Loader::createVAO() {
 	unsigned int VAO;
 	glGenVertexArrays(1, &VAO);
@@ -53,7 +51,6 @@ unsigned int Loader::loadTexture(const char *fileName) {
 	int width, height, nrChannels;
 	unsigned int texture;
 	unsigned char *data = stbi_load(fileName, &width, &height, &nrChannels, 3);
-	std::cout << "nrchannels : " << nrChannels << std::endl;
 	glGenTextures(1, &texture);
 	textureQ.push_back(texture);
 	glBindTexture(GL_TEXTURE_2D, texture);
@@ -72,6 +69,72 @@ unsigned int Loader::loadTexture(const char *fileName) {
 	glBindTexture(GL_TEXTURE_2D, 0);
 	stbi_image_free(data);
 	return texture;
+}
+
+RawModel Loader::loadObjFromFile(const char * fileName) {
+	std::vector<glm::vec3> vertexVector;
+	std::vector<glm::vec2> textureVector;
+	std::vector<glm::vec3> normalVector;
+	std::vector<int> indexArray;
+
+	std::ifstream ifs(fileName);
+	if (ifs.fail()) {
+		std::cerr << "Failed to open OBJ file" << fileName << std::endl;
+	}
+	std::string line;
+	while(std::getline(ifs, line)) {
+		std::istringstream iss(line);
+		if (line.substr(0, 2) == "v ") {
+			glm::vec3 vertex;
+			std::string v;
+			if (!(iss >> v >> vertex.x >> vertex.y >> vertex.z)) {
+				std::cerr << "Something went wrong during obj vertex parsing" << std::endl;
+			}
+			vertexVector.push_back(vertex);
+		} 
+		else if (line.substr(0, 2) == "vt") {
+			glm::vec2 texCoord;
+			std::string vt;
+			if (!(iss >> vt >> texCoord.x >> texCoord.y)) {
+				std::cerr << "Something went wrong during obj texture parsing" << std::endl;
+			}
+			textureVector.push_back(texCoord);
+		} 
+		else if (line.substr(0, 2) == "vn") {
+			glm::vec3 normal;
+			std::string vn;
+			if (!(iss >> vn >> normal.x >> normal.y >> normal.z)) {
+				std::cerr << "Something went wrong during obj normal parsing" << std::endl;
+			}
+			normalVector.push_back(normal);
+		}
+		else if (line.substr(0,2) == "f") {
+			break;
+		}
+		else {
+			continue;
+		}
+	}
+
+	float *textureArray = new float[textureVector.size()];
+	float *normalArray = new float[normalVector.size()];
+	do {
+		std::istringstream iss(line);
+		if (line.substr(0, 2) == "f") {
+			std::string vertex1, vertex2, vertex3;
+			if (!(iss >> vertex1 >> vertex2 >> vertex3)) {
+				std::cerr << "Something went wrong during obj faces parsing" << std::endl;
+			}
+		}
+		else {
+			continue;
+		}
+	} while (std::getline(ifs, line));
+
+	delete[] textureArray;
+	delete[] normalArray;
+
+	return loadObjIntoVAO({ 0 }, { 0 }, { 0 });
 }
 
 RawModel Loader::loadObjIntoVAO(std::vector<float> vertices, std::vector<float> texCoords, std::vector<int> indices) {

@@ -119,7 +119,8 @@ int main() {
 	}
 	glfwSetFramebufferSizeCallback(window, framebuffer_resize_callback);
 
-	RawModel model = loader.loadObjIntoVAO(vertices, texCoords, indices);
+	RawModel model = loader.loadObjFromFile("res/stall.obj");
+	model = loader.loadObjIntoVAO(vertices, texCoords, indices);
 	ModelTex tex;
 	tex.addTexture(loader.loadTexture("res/container.jpg"));
 	//tex.addTexture(loader.loadTexture("res/awesomeface.png"));

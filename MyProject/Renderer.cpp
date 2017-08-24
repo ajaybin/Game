@@ -1,5 +1,4 @@
-#include <Renderer.h>
-#include <Maths.h>
+#include "Renderer.h"
 Renderer::Renderer(StaticShader shader, int width, int height) : shader(shader) {
 	this->width = width;
 	this->height = height;
