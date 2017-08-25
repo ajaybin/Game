@@ -26,74 +26,6 @@ void processInput(GLFWwindow* window) {
 int main() {
 
 	Loader loader;
-	std::vector<float> vertices = 
-	 {  -0.5f,0.5f,-0.5f,
-	    -0.5f,-0.5f,-0.5f,
-		0.5f,-0.5f,-0.5f,
-		0.5f,0.5f,-0.5f,
-
-		-0.5f,0.5f,0.5f,
-		-0.5f,-0.5f,0.5f,
-		0.5f,-0.5f,0.5f,
-		0.5f,0.5f,0.5f,
-
-		0.5f,0.5f,-0.5f,
-		0.5f,-0.5f,-0.5f,
-		0.5f,-0.5f,0.5f,
-		0.5f,0.5f,0.5f,
-
-		-0.5f,0.5f,-0.5f,
-		-0.5f,-0.5f,-0.5f,
-		-0.5f,-0.5f,0.5f,
-		-0.5f,0.5f,0.5f,
-
-		-0.5f,0.5f,0.5f,
-		-0.5f,0.5f,-0.5f,
-		0.5f,0.5f,-0.5f,
-		0.5f,0.5f,0.5f,
-
-		-0.5f,-0.5f,0.5f,
-		-0.5f,-0.5f,-0.5f,
-		0.5f,-0.5f,-0.5f,
-		0.5f,-0.5f,0.5f };
-	std::vector<int> indices = 
-	  { 0,1,3,
-		3,1,2,
-		4,5,7,
-		7,5,6,
-		8,9,11,
-		11,9,10,
-		12,13,15,
-		15,13,14,
-		16,17,19,
-		19,17,18,
-		20,21,23,
-		23,21,22 };
-	std::vector<float> texCoords = 
-	  { 0,0,
-		0,1,
-		1,1,
-		1,0,
-		0,0,
-		0,1,
-		1,1,
-		1,0,
-		0,0,
-		0,1,
-		1,1,
-		1,0,
-		0,0,
-		0,1,
-		1,1,
-		1,0,
-		0,0,
-		0,1,
-		1,1,
-		1,0,
-		0,0,
-		0,1,
-		1,1,
-		1,0 };
 
 	glfwInit();
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
@@ -119,19 +51,17 @@ int main() {
 	}
 	glfwSetFramebufferSizeCallback(window, framebuffer_resize_callback);
 
-	RawModel model = loader.loadObjFromFile("res/stall.obj");
-	model = loader.loadObjIntoVAO(vertices, texCoords, indices);
+	//RawModel model = loader.loadObjFromFile("res/stall.obj");
+	RawModel model = loader.loadObjFromFile("res/cube.obj");
 	ModelTex tex;
 	tex.addTexture(loader.loadTexture("res/container.jpg"));
-	//tex.addTexture(loader.loadTexture("res/awesomeface.png"));
 	TexturedModel texModel(model, tex);
-	Entity entity(texModel, glm::vec3(0.0f, 0.0f, 0.0f), 0, 0, 0, glm::vec3(1.0f, 1.0f, 1.0f));
-	entity.changeRotation(-55.0f, 0.0f, 0.0f);
+	Entity entity(texModel, glm::vec3(0.0f, 0.0f, -5.0f), 0, 0, 0, glm::vec3(1.0f, 1.0f, 1.0f));
 	StaticShader shader;
 	Renderer renderer(shader, WIDTH, HEIGHT);
 	while(!glfwWindowShouldClose(window)) {
 		//entity.changePosition(0.0f, 0.0f, -0.0001f);
-		entity.changeRotation(0.01f, 0.02f, 0.02f);
+		entity.changeRotation(0.02f, 0.02f, 0.0f);
 		//Input
 		processInput(window);
 		//Render

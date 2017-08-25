@@ -35,6 +35,30 @@ void Loader::unbindIndicesBuffer() {
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 }
 
+std::vector<std::string> Loader::split(const std::string & s, char delim) {
+	std::vector<std::string> stringVector;
+	std::stringstream ss;
+	std::string str;
+	ss.str(s);
+	while (std::getline(ss, str, delim)) {
+		stringVector.push_back(str);
+	}
+	return stringVector;
+}
+
+void Loader::processVertex(std::vector<std::string> vertex, std::vector<glm::vec2> textureVector, std::vector<glm::vec3> normalVector, 
+	std::vector<int> &indexArray, float * textureArray, float * normalArray) {
+	int index = std::stoi(vertex[0]) - 1;
+	indexArray.push_back(index);
+	glm::vec2 currentTexture = textureVector.at(std::stoi(vertex[1]) - 1);
+	textureArray[index * 2] = currentTexture.x;
+	textureArray[index * 2 + 1] = 1- currentTexture.y;
+	glm::vec3 currentNormal = normalVector.at(std::stoi(vertex[2]) - 1);
+	normalArray[index * 3] = currentNormal.x;
+	normalArray[index * 3 + 1] = currentNormal.y;
+	normalArray[index * 3 + 2] = currentNormal.z;
+}
+
 void Loader::cleanUp() {
 	for (unsigned int VAO : vaoQ) {
 		glDeleteVertexArrays(1, &VAO);
@@ -108,7 +132,7 @@ RawModel Loader::loadObjFromFile(const char * fileName) {
 			}
 			normalVector.push_back(normal);
 		}
-		else if (line.substr(0,2) == "f") {
+		else if (line.substr(0,2) == "f ") {
 			break;
 		}
 		else {
@@ -116,25 +140,42 @@ RawModel Loader::loadObjFromFile(const char * fileName) {
 		}
 	}
 
-	float *textureArray = new float[textureVector.size()];
-	float *normalArray = new float[normalVector.size()];
+	float *textureArray = new float[vertexVector.size() * 2];
+	float *normalArray = new float[vertexVector.size() * 3];
 	do {
 		std::istringstream iss(line);
-		if (line.substr(0, 2) == "f") {
-			std::string vertex1, vertex2, vertex3;
-			if (!(iss >> vertex1 >> vertex2 >> vertex3)) {
+		if (line.substr(0, 2) == "f ") {
+			std::string f, vertex1, vertex2, vertex3;
+			if (!(iss >> f >> vertex1 >> vertex2 >> vertex3)) {
 				std::cerr << "Something went wrong during obj faces parsing" << std::endl;
 			}
+			processVertex(split(vertex1, '/'), textureVector, normalVector, indexArray, textureArray, normalArray);
+			processVertex(split(vertex2, '/'), textureVector, normalVector, indexArray, textureArray, normalArray);
+			processVertex(split(vertex3, '/'), textureVector, normalVector, indexArray, textureArray, normalArray);
 		}
 		else {
 			continue;
 		}
 	} while (std::getline(ifs, line));
 
+	std::vector<float> vertices;
+	std::vector<float> texCoords;
+	std::vector<float> normals;
+	for (glm::vec3 vertex : vertexVector) {
+		vertices.push_back(vertex.x);
+		vertices.push_back(vertex.y);
+		vertices.push_back(vertex.z);
+	}
+	for (int i = 0; i < vertexVector.size() * 2; i++) {
+		texCoords.push_back(textureArray[i]);
+	}
+	for (int i = 0; i < vertexVector.size() * 3; i++) {
+		normals.push_back(normalArray[i]);
+	}
 	delete[] textureArray;
 	delete[] normalArray;
 
-	return loadObjIntoVAO({ 0 }, { 0 }, { 0 });
+	return loadObjIntoVAO(vertices, texCoords, indexArray);
 }
 
 RawModel Loader::loadObjIntoVAO(std::vector<float> vertices, std::vector<float> texCoords, std::vector<int> indices) {

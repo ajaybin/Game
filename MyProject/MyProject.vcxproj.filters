@@ -99,9 +99,15 @@
     <Image Include="res\awesomeface.png">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="res\stallTexture.png">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <Object Include="res\stall.obj">
+      <Filter>Resource Files</Filter>
+    </Object>
+    <Object Include="res\cube.obj">
       <Filter>Resource Files</Filter>
     </Object>
   </ItemGroup>
