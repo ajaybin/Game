@@ -7,14 +7,16 @@
 #include <Entity.h>
 #include <Maths.h>
 #include <StaticShader.h>
+#include <Camera.h>
 using namespace std;
 class Renderer {
 	StaticShader shader;
+	Camera camera;
 	int width, height;
 public:
-	Renderer(StaticShader shader, int width, int height);
+	Renderer(StaticShader &shader, Camera &camera, int width, int height);
 	void prepare();
-	void render(Entity entity);
+	void render(Entity &entity);
 	void setAspect(int width, int height);
 };
 #endif

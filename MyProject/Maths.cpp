@@ -20,8 +20,8 @@ glm::mat4 Maths::createProjectionMatrix(float fov, float aspectRatio, float near
 
 }
 
-glm::mat4 Maths::createViewMatrix(glm::vec3 position) {
+glm::mat4 Maths::createViewMatrix(glm::vec3 position, glm::vec3 target) {
 	glm::mat4 transMat = glm::mat4(1);
-	transMat = glm::translate(transMat, position);
+	transMat = glm::lookAt(position, target, glm::vec3(0.0f, 1.0f, 0.0f));
 	return transMat;
 }
