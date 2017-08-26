@@ -80,19 +80,19 @@ int main() {
 
 	camera = new Camera(glm::vec3(0.0f, 0.0f, 10.0f), glm::vec3(0.0f, 0.0f, -1.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 	Light *light;
-	light = new Light(glm::vec3(2.0f, 5.0f, 5.0f), glm::vec3(1.0f, 1.0f, 1.0f));
-	RawModel model = loader.loadObjFromFile("res/cube.obj");
-	ModelTex tex;
-	tex.addTexture(loader.loadTexture("res/container.jpg"));
+	light = new Light(glm::vec3(0.0f, 0.0f, 5.0f), glm::vec3(1.0f, 1.0f, 1.0f));
+	RawModel model = loader.loadObjFromFile("res/stall.obj");
+	ModelTex tex(32, 1);
+	tex.addTexture(loader.loadTexture("res/stallTexture.png"));
 	TexturedModel texModel(model, tex);
-	Entity entity(texModel, glm::vec3(0.0f, 0.0f, 0.0f), 0, 0, 0, glm::vec3(1.0f, 1.0f, 1.0f));
+	Entity entity(texModel, glm::vec3(0.0f, -2.0f, -10.0f), 0, 0, 0, glm::vec3(1.0f, 1.0f, 1.0f));
 	StaticShader shader;
 	while(!glfwWindowShouldClose(window)) {
 		float currentFrame = (float)glfwGetTime();
 		deltaTime = currentFrame - lastFrame;
 		lastFrame = currentFrame;
 
-		entity.changeRotation(0.005f, 0.005f, 0.005f);
+		entity.changeRotation(0.0f, 0.005f, 0.0f);
 
 		//Input
 		processInput(window);

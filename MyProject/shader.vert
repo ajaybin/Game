@@ -7,11 +7,13 @@ layout (location = 2) in vec3 normal;
 out vec2 passTexCoords;
 out vec3 surfaceNormal;
 out vec3 lightVector;
+out vec3 toCameraVector;
 
 uniform mat4 modelMatrix;
 uniform mat4 projectionMatrix;
 uniform mat4 viewMatrix;
 uniform vec3 lightPosition;
+uniform vec3 cameraPosition;
 
 void main()
 {
@@ -19,7 +21,9 @@ void main()
     gl_Position = projectionMatrix * viewMatrix * vertexWorldPosition;
 	passTexCoords = texCoords;
 
-	surfaceNormal = normalize((modelMatrix * vec4(normal, 0)).xyz);
+	mat3 normalMatrix = mat3(transpose(inverse(modelMatrix)));
+	surfaceNormal = normalize(normalMatrix * normal);
 	lightVector = normalize(lightPosition - vertexWorldPosition.xyz);
+	toCameraVector = normalize(cameraPosition - vertexWorldPosition.xyz);
 }
 )"

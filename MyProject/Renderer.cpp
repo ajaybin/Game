@@ -5,6 +5,8 @@ Renderer::Renderer(StaticShader &shader, Camera *camera, Light *light) : shader(
 	this->setAspect(params[2], params[3]);
 	this->camera = camera;
 	this->light = light;
+	glEnable(GL_CULL_FACE);
+	glCullFace(GL_BACK);
 }
 void Renderer::prepare() {
 	glEnable(GL_DEPTH_TEST);
@@ -25,6 +27,9 @@ void Renderer::render(Entity &entity) {
 	shader.setMat4("viewMatrix", viewMatrix);
 	shader.setVec3("lightPosition", light->position);
 	shader.setVec3("lightColour", light->colour);
+	shader.setVec3("cameraPosition", camera->position);
+	shader.setFloat("reflectivity", entity.getModel().getModelTex().getReflectivity());
+	shader.setFloat("shineFactor", entity.getModel().getModelTex().getShineFactor());
 
 	for (unsigned int i = 0; i < texModel.getModelTex().getNumTextures(); i++) {
 		shader.setInt(("textureSampler" + std::to_string(i)).c_str(), i);
