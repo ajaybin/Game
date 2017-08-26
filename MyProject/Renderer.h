@@ -11,10 +11,11 @@
 using namespace std;
 class Renderer {
 	StaticShader shader;
-	Camera camera;
+	Camera *camera;
 	int width, height;
+	float fov;
 public:
-	Renderer(StaticShader &shader, Camera &camera, int width, int height);
+	Renderer(StaticShader &shader, Camera *camera, int width, int height);
 	void prepare();
 	void render(Entity &entity);
 	void setAspect(int width, int height);
