@@ -175,15 +175,17 @@ RawModel Loader::loadObjFromFile(const char * fileName) {
 	delete[] textureArray;
 	delete[] normalArray;
 
-	return loadObjIntoVAO(vertices, texCoords, indexArray);
+	return loadObjIntoVAO(vertices, texCoords, normals, indexArray);
 }
 
-RawModel Loader::loadObjIntoVAO(std::vector<float> vertices, std::vector<float> texCoords, std::vector<int> indices) {
+RawModel Loader::loadObjIntoVAO(std::vector<float> vertices, std::vector<float> texCoords, 
+	std::vector<float> normals, std::vector<int> indices) {
 	unsigned int VAO = createVAO();
 	bindIndicesBuffer(indices);
 	RawModel model (VAO, (int)indices.size());
 	storeData(0, 3, vertices);
 	storeData(1, 2, texCoords);
+	storeData(2, 3, normals);
 	unbindVAO();
 	unbindIndicesBuffer();
 	return model;

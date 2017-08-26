@@ -10,6 +10,7 @@
 #include <Entity.h>
 #include <Maths.h>
 #include <Camera.h>
+#include <Light.h>
 using namespace std;
 
 const unsigned int WIDTH = 1280;
@@ -33,18 +34,14 @@ void processInput(GLFWwindow* window) {
 	float cameraSpeed = 5.5f * deltaTime;
 	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
 		glfwSetWindowShouldClose(window, GL_TRUE);
-	else if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) {
+	else if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
 		camera->position -= cameraSpeed * camera->target;
-	}
-	else if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) {
+	else if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
 		camera->position += cameraSpeed * camera->target;
-	}
-	else if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) {
+	else if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
 		camera->position += glm::normalize(glm::cross(camera->up, camera->target)) * cameraSpeed;
-	}
-	else if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) {
+	else if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
 		camera->position -= glm::normalize(glm::cross(camera->up, camera->target)) * cameraSpeed;
-	}
 }
 
 void scroll_callback(GLFWwindow* window, double xoffset, double yoffset) {
@@ -81,29 +78,29 @@ int main() {
 	glfwSetCursorPosCallback(window, mouse_callback);
 	glfwSetScrollCallback(window, scroll_callback);
 
-	//RawModel model = loader.loadObjFromFile("res/stall.obj");
 	camera = new Camera(glm::vec3(0.0f, 0.0f, 10.0f), glm::vec3(0.0f, 0.0f, -1.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+	Light *light;
+	light = new Light(glm::vec3(2.0f, 5.0f, 5.0f), glm::vec3(1.0f, 1.0f, 1.0f));
 	RawModel model = loader.loadObjFromFile("res/cube.obj");
 	ModelTex tex;
 	tex.addTexture(loader.loadTexture("res/container.jpg"));
 	TexturedModel texModel(model, tex);
 	Entity entity(texModel, glm::vec3(0.0f, 0.0f, 0.0f), 0, 0, 0, glm::vec3(1.0f, 1.0f, 1.0f));
-	Entity entity2(texModel, glm::vec3(3.0f, 5.0f, -20.0f), 0, 0, 0, glm::vec3(1.0f, 1.0f, 1.0f));
 	StaticShader shader;
 	while(!glfwWindowShouldClose(window)) {
 		float currentFrame = (float)glfwGetTime();
 		deltaTime = currentFrame - lastFrame;
 		lastFrame = currentFrame;
-		//entity.changePosition(0.0f, 0.0f, -0.0001f);
-		//entity.changeRotation(0.02f, 0.02f, 0.0f);
+
+		entity.changeRotation(0.005f, 0.005f, 0.005f);
+
 		//Input
 		processInput(window);
 		//Render
-		Renderer renderer(shader, camera, WIDTH, HEIGHT);
+		Renderer renderer(shader, camera, light);
 		renderer.prepare();
 		shader.start();
 		renderer.render(entity);
-		renderer.render(entity2);
 		shader.end();
 		//check event and swap buffers
 		glfwPollEvents();
@@ -112,6 +109,7 @@ int main() {
 	loader.cleanUp();
 	glfwTerminate();
 	delete camera;
+	delete light;
 	return 0;
 }
 

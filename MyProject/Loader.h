@@ -26,7 +26,8 @@ class Loader {
 	void processVertex(std::vector<std::string> vertex, std::vector<glm::vec2> textureVector, std::vector<glm::vec3> normalVector, 
 		std::vector<int> &indexArray, float *textureArray, float *normalArray);
 public:
-	RawModel loadObjIntoVAO(std::vector<float> vertices, std::vector<float> texCoords, std::vector<int> indices);
+	RawModel loadObjIntoVAO(std::vector<float> vertices, std::vector<float> texCoords, 
+		std::vector<float> normals, std::vector<int> indices);
 	void cleanUp();
 	unsigned int loadTexture(const char *fileName);
 	RawModel loadObjFromFile(const char *fileName);
