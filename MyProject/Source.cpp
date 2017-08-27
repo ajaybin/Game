@@ -74,11 +74,11 @@ int main() {
 
 	Loader *loader = new Loader(); 
 	Light *light = new Light(glm::vec3(0.0f, 0.0f, 5.0f), glm::vec3(1.0f, 1.0f, 1.0f));;
-	camera = new Camera(glm::vec3(0.0f, 0.0f, 10.0f), glm::vec3(0.0f, 0.0f, -1.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+	camera = new Camera(glm::vec3(0.0f, 5.0f, 10.0f), glm::vec3(0.0f, 0.0f, -1.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 
 	RawModel model = loader->loadObjFromFile("res/cube.obj");
 	ModelTex *tex = new ModelTex(32, 0.5);
-	tex->addTexture(loader->loadTexture("res/container.jpg"));
+	tex->addTexture(loader->loadTexture("res/awesomeface.png"));
 	TexturedModel *texModel = new TexturedModel(&model, tex);
 
 	//Wow much confuse C++11
@@ -95,6 +95,13 @@ int main() {
 		entityVector.push_back(entity);
 	}
 
+	ModelTex *grassTex = new ModelTex(32, 0.1f);
+	grassTex->addTexture(loader->loadTexture("res/grass.jpg"));
+	Terrain terrain1(-1, 0, loader, grassTex);
+	Terrain terrain2(0, 0, loader, grassTex);
+	Terrain terrain3(-1, -1, loader, grassTex);
+	Terrain terrain4(0, -1, loader, grassTex);
+
 	MasterRenderer *renderer = new MasterRenderer();
 
 	while(!glfwWindowShouldClose(window)) {
@@ -108,6 +115,10 @@ int main() {
 		for (Entity entity : entityVector) {
 			renderer->addEntity(entity);
 		}
+		renderer->addTerrain(terrain1);
+		renderer->addTerrain(terrain2);
+		renderer->addTerrain(terrain3);
+		renderer->addTerrain(terrain4);
 		renderer->render(camera, light);
 		//check event and swap buffers
 		glfwPollEvents();
@@ -118,6 +129,7 @@ int main() {
 	glfwTerminate();
 	delete loader;
 	delete tex;
+	delete grassTex;
 	delete texModel;
 	delete renderer;
 	delete camera;

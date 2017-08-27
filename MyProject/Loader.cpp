@@ -12,7 +12,7 @@ void Loader::unbindVAO() {
 	glBindVertexArray(0);
 }
 
-void Loader::storeData(unsigned int attributePosition, unsigned int size, std::vector<float> data) {
+void Loader::storeData(unsigned int attributePosition, unsigned int size, std::vector<float> &data) {
 	unsigned int VBO;
 	glGenBuffers(1, &VBO);
 	vboQ.push_back(VBO);
@@ -22,7 +22,7 @@ void Loader::storeData(unsigned int attributePosition, unsigned int size, std::v
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
-void Loader::bindIndicesBuffer(std::vector<int> indices) {
+void Loader::bindIndicesBuffer(std::vector<int> &indices) {
 	unsigned int VBO;
 	glGenBuffers(1, &VBO);
 	vboQ.push_back(VBO);
@@ -177,8 +177,8 @@ RawModel Loader::loadObjFromFile(const char * fileName) {
 	return loadObjIntoVAO(vertices, texCoords, normals, indexArray);
 }
 
-RawModel Loader::loadObjIntoVAO(std::vector<float> vertices, std::vector<float> texCoords, 
-	std::vector<float> normals, std::vector<int> indices) {
+RawModel Loader::loadObjIntoVAO(std::vector<float> &vertices, std::vector<float> &texCoords, 
+	std::vector<float> &normals, std::vector<int> &indices) {
 	unsigned int VAO = createVAO();
 	bindIndicesBuffer(indices);
 	RawModel model (VAO, (int)indices.size());
