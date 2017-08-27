@@ -3,11 +3,11 @@
 #include <RawModel.h>
 #include <ModelTex.h>
 class TexturedModel {
-	RawModel model;
-	ModelTex tex;
+	RawModel *model;
+	ModelTex *tex;
 public:
-	TexturedModel(const RawModel model, const ModelTex tex);
-	RawModel getRawModel();
-	ModelTex getModelTex();
+	TexturedModel(RawModel *model, ModelTex *tex);
+	RawModel* getRawModel();
+	ModelTex* getModelTex();
 };
 #endif

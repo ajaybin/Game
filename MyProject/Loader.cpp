@@ -19,7 +19,6 @@ void Loader::storeData(unsigned int attributePosition, unsigned int size, std::v
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(float)*data.capacity(), &data.front(), GL_STATIC_DRAW);
 	glVertexAttribPointer(attributePosition, size, GL_FLOAT, GL_FALSE, 0, 0);
-	glEnableVertexAttribArray(attributePosition);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 

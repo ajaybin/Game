@@ -42,6 +42,10 @@ void ShaderProgram::end() {
 	glUseProgram(0);
 }
 
+void ShaderProgram::cleanUp() {
+	glDeleteProgram(shaderProgram);
+}
+
 void ShaderProgram::setBool(const char * name, bool value) {
 	glUniform1i(glGetUniformLocation(shaderProgram, name), value);
 }

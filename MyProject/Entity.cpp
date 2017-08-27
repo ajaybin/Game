@@ -1,14 +1,15 @@
 #include "Entity.h"
 
-Entity::Entity(const TexturedModel model, glm::vec3 position, float rotX, float rotY, float rotZ, glm::vec3 scale) : model(model) {
+Entity::Entity(TexturedModel* model, glm::vec3 position, float rotX, float rotY, float rotZ, glm::vec3 scale) {
 	this->position = position;
 	this->rotX = rotX;
 	this->rotY = rotY;
 	this->rotZ = rotZ;
 	this->scale = scale;
+	this->model = model;
 }
 
-TexturedModel Entity::getModel() {
+TexturedModel* Entity::getModel() {
 	return this->model;
 }
 

@@ -3,14 +3,14 @@
 #include <iostream>
 #include <RawModel.h>
 #include <Loader.h>
-#include <Renderer.h>
-#include <StaticShader.h>
 #include <ModelTex.h>
 #include <TexturedModel.h>
 #include <Entity.h>
 #include <Maths.h>
 #include <Camera.h>
 #include <Light.h>
+#include <MasterRenderer.h>
+#include <random>
 using namespace std;
 
 const unsigned int WIDTH = 1280;
@@ -31,17 +31,13 @@ void mouse_callback(GLFWwindow* window, double xpos, double ypos) {
 }
 
 void processInput(GLFWwindow* window) {
-	float cameraSpeed = 5.5f * deltaTime;
 	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
 		glfwSetWindowShouldClose(window, GL_TRUE);
-	else if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
-		camera->position -= cameraSpeed * camera->target;
-	else if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
-		camera->position += cameraSpeed * camera->target;
-	else if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
-		camera->position += glm::normalize(glm::cross(camera->up, camera->target)) * cameraSpeed;
-	else if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
-		camera->position -= glm::normalize(glm::cross(camera->up, camera->target)) * cameraSpeed;
+	else if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS ||
+			 glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS ||
+		 	 glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS ||
+		  	 glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
+		camera->moveCamera(window, deltaTime);
 }
 
 void scroll_callback(GLFWwindow* window, double xoffset, double yoffset) {
@@ -49,8 +45,6 @@ void scroll_callback(GLFWwindow* window, double xoffset, double yoffset) {
 }
 
 int main() {
-
-	Loader loader;
 	glfwInit();
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
@@ -78,36 +72,54 @@ int main() {
 	glfwSetCursorPosCallback(window, mouse_callback);
 	glfwSetScrollCallback(window, scroll_callback);
 
+	Loader *loader = new Loader(); 
+	Light *light = new Light(glm::vec3(0.0f, 0.0f, 5.0f), glm::vec3(1.0f, 1.0f, 1.0f));;
 	camera = new Camera(glm::vec3(0.0f, 0.0f, 10.0f), glm::vec3(0.0f, 0.0f, -1.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-	Light *light;
-	light = new Light(glm::vec3(0.0f, 0.0f, 5.0f), glm::vec3(1.0f, 1.0f, 1.0f));
-	RawModel model = loader.loadObjFromFile("res/cube.obj");
-	ModelTex tex(32, 1);
-	tex.addTexture(loader.loadTexture("res/container.jpg"));
-	TexturedModel texModel(model, tex);
-	Entity entity(texModel, glm::vec3(0.0f, -2.0f, -10.0f), 0, 0, 0, glm::vec3(1.0f, 1.0f, 1.0f));
-	StaticShader shader;
+
+	RawModel model = loader->loadObjFromFile("res/cube.obj");
+	ModelTex *tex = new ModelTex(32, 0.5);
+	tex->addTexture(loader->loadTexture("res/container.jpg"));
+	TexturedModel *texModel = new TexturedModel(&model, tex);
+
+	//Wow much confuse C++11
+	std::random_device rd;
+	std::mt19937 gen(rd());
+	std::uniform_real_distribution<> dis(0, 1);
+
+	std::vector<Entity> entityVector;
+	for (int i = 0; i < 200; i++) {
+		float x = ((float)dis(gen) * 100) - 50;
+		float y = ((float)dis(gen) * 100) - 50;
+		float z = ((float)dis(gen) * 100) - 50;
+		Entity entity(texModel, glm::vec3(x, y, z), (float)dis(gen) * 180.0f, (float)dis(gen) * 180.0f, 0, glm::vec3(1.0f, 1.0f, 1.0f));
+		entityVector.push_back(entity);
+	}
+
+	MasterRenderer *renderer = new MasterRenderer();
+
 	while(!glfwWindowShouldClose(window)) {
 		float currentFrame = (float)glfwGetTime();
 		deltaTime = currentFrame - lastFrame;
 		lastFrame = currentFrame;
 
-		entity.changeRotation(0.0f, 0.005f, 0.0f);
-
 		//Input
 		processInput(window);
 		//Render
-		Renderer renderer(shader, camera, light);
-		renderer.prepare();
-		shader.start();
-		renderer.render(entity);
-		shader.end();
+		for (Entity entity : entityVector) {
+			renderer->addEntity(entity);
+		}
+		renderer->render(camera, light);
 		//check event and swap buffers
 		glfwPollEvents();
 		glfwSwapBuffers(window);
 	}
-	loader.cleanUp();
+	renderer->cleanUp();
+	loader->cleanUp();
 	glfwTerminate();
+	delete loader;
+	delete tex;
+	delete texModel;
+	delete renderer;
 	delete camera;
 	delete light;
 	return 0;

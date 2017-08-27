@@ -1,14 +1,16 @@
 #include "TexturedModel.h"
 
-TexturedModel::TexturedModel(const RawModel model, const ModelTex tex) : model(model), tex(tex) {
+TexturedModel::TexturedModel(RawModel *model, ModelTex *tex) {
+	this->model = model;
+	this->tex = tex;
 }
 
-RawModel TexturedModel::getRawModel()
+RawModel* TexturedModel::getRawModel()
 {
 	return model;
 }
 
-ModelTex TexturedModel::getModelTex() {
+ModelTex* TexturedModel::getModelTex() {
 	return tex;
 }
 

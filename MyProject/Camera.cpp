@@ -50,6 +50,18 @@ void Camera::scrollCallback(double xoffset, double yoffset) {
 		fov = 45.0f;
 }
 
+void Camera::moveCamera(GLFWwindow *window, float deltaTime) {
+	float cameraSpeed = 5.5f * deltaTime;
+	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
+		position -= cameraSpeed * target;
+	else if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
+		position += cameraSpeed * target;
+	else if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+		position += glm::normalize(glm::cross(up, target)) * cameraSpeed;
+	else if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
+		position -= glm::normalize(glm::cross(up, target)) * cameraSpeed;
+}
+
 float Camera::getFov() {
 	return fov;
 }
