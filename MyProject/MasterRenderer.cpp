@@ -8,8 +8,8 @@ MasterRenderer::MasterRenderer() {
 	terrainRenderer = new TerrainRenderer(terrainShader);
 
 	this->entities = new std::map<TexturedModel*, std::vector<Entity>>();
-	//glEnable(GL_CULL_FACE);
-	//glCullFace(GL_BACK);
+	glEnable(GL_CULL_FACE);
+	glCullFace(GL_BACK);
 }
 
 void MasterRenderer::cleanUp() {
