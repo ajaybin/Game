@@ -81,9 +81,9 @@ int main() {
 	camera = new Camera(glm::vec3(0.0f, 0.0f, 10.0f), glm::vec3(0.0f, 0.0f, -1.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 	Light *light;
 	light = new Light(glm::vec3(0.0f, 0.0f, 5.0f), glm::vec3(1.0f, 1.0f, 1.0f));
-	RawModel model = loader.loadObjFromFile("res/stall.obj");
+	RawModel model = loader.loadObjFromFile("res/cube.obj");
 	ModelTex tex(32, 1);
-	tex.addTexture(loader.loadTexture("res/stallTexture.png"));
+	tex.addTexture(loader.loadTexture("res/container.jpg"));
 	TexturedModel texModel(model, tex);
 	Entity entity(texModel, glm::vec3(0.0f, -2.0f, -10.0f), 0, 0, 0, glm::vec3(1.0f, 1.0f, 1.0f));
 	StaticShader shader;

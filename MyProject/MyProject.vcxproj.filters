@@ -122,5 +122,8 @@
     <Object Include="res\cube.obj">
       <Filter>Resource Files</Filter>
     </Object>
+    <Object Include="res\dragon.obj">
+      <Filter>Resource Files</Filter>
+    </Object>
   </ItemGroup>
 </Project>

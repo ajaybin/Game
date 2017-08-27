@@ -23,7 +23,7 @@ class Loader {
 	void bindIndicesBuffer(std::vector<int> indices);
 	void unbindIndicesBuffer();
 	std::vector<std::string> split(const std::string &s, char delim);
-	void processVertex(std::vector<std::string> vertex, std::vector<glm::vec2> textureVector, std::vector<glm::vec3> normalVector, 
+	void processVertex(std::vector<std::string> &vertex, std::vector<glm::vec2> &textureVector, std::vector<glm::vec3> &normalVector, 
 		std::vector<int> &indexArray, float *textureArray, float *normalArray);
 public:
 	RawModel loadObjIntoVAO(std::vector<float> vertices, std::vector<float> texCoords, 

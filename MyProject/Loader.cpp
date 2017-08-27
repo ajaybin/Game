@@ -46,7 +46,7 @@ std::vector<std::string> Loader::split(const std::string & s, char delim) {
 	return stringVector;
 }
 
-void Loader::processVertex(std::vector<std::string> vertex, std::vector<glm::vec2> textureVector, std::vector<glm::vec3> normalVector, 
+void Loader::processVertex(std::vector<std::string> &vertex, std::vector<glm::vec2> &textureVector, std::vector<glm::vec3> &normalVector, 
 	std::vector<int> &indexArray, float * textureArray, float * normalArray) {
 	int index = std::stoi(vertex[0]) - 1;
 	indexArray.push_back(index);
