@@ -1,11 +1,11 @@
 #include "StaticShader.h"
 
 const char* StaticShader::fragmentShaderSourceIncl = ""
-#include "shader.frag"
+#include "shaderEntity.frag"
 ;
 
 const char* StaticShader::vertexShaderSourceIncl = ""
-#include "shader.vert"
+#include "shaderEntity.vert"
 ;
 
 StaticShader::StaticShader(const char * vertexShaderSource, const char * fragmentShaderSource) : ShaderProgram(vertexShaderSource, fragmentShaderSource) {

@@ -137,8 +137,8 @@
     <ClCompile Include="TexturedModel.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="shader.frag" />
-    <None Include="shader.vert" />
+    <None Include="shaderEntity.frag" />
+    <None Include="shaderEntity.vert" />
     <None Include="shaderTerrain.frag" />
     <None Include="shaderTerrain.vert" />
   </ItemGroup>

@@ -71,16 +71,16 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="shader.vert">
-      <Filter>Source Files</Filter>
-    </None>
-    <None Include="shader.frag">
-      <Filter>Source Files</Filter>
-    </None>
     <None Include="shaderTerrain.vert">
       <Filter>Source Files</Filter>
     </None>
     <None Include="shaderTerrain.frag">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="shaderEntity.frag">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="shaderEntity.vert">
       <Filter>Source Files</Filter>
     </None>
   </ItemGroup>
