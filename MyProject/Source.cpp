@@ -1,16 +1,6 @@
-#include <glad/glad.h>
-#include <glfw3.h>
 #include <iostream>
-#include <RawModel.h>
-#include <Loader.h>
-#include <ModelTex.h>
-#include <TexturedModel.h>
-#include <Entity.h>
-#include <Maths.h>
-#include <Camera.h>
-#include <Light.h>
-#include <MasterRenderer.h>
 #include <random>
+#include <MasterRenderer.h>
 using namespace std;
 
 const unsigned int WIDTH = 1280;
