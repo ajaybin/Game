@@ -73,7 +73,7 @@ void Loader::cleanUp() {
 unsigned int Loader::loadTexture(const char *fileName) {
 	int width, height, nrChannels;
 	unsigned int texture;
-	unsigned char *data = stbi_load(fileName, &width, &height, &nrChannels, 3);
+	unsigned char *data = stbi_load(fileName, &width, &height, &nrChannels, 4);
 	glGenTextures(1, &texture);
 	textureQ.push_back(texture);
 	glBindTexture(GL_TEXTURE_2D, texture);
@@ -83,7 +83,7 @@ unsigned int Loader::loadTexture(const char *fileName) {
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	if (data) {
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
 		glGenerateMipmap(GL_TEXTURE_2D);
 	}
 	else {

@@ -1,8 +1,9 @@
 #pragma once
+#include <BaseRenderer.h>
 #include <TerrainShader.h>
 #include <Terrain.h>
 #include <Maths.h>
-class TerrainRenderer {
+class TerrainRenderer : private BaseRenderer{
 	TerrainShader *shader;
 
 public:

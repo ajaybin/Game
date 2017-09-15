@@ -23,6 +23,9 @@ void EntityRenderer::prepareTexturedModel(TexturedModel *texModel) {
 	glEnableVertexAttribArray(0);
 	glEnableVertexAttribArray(1);
 	glEnableVertexAttribArray(2);
+	if (texModel->getModelTex()->isTransparent) {
+		disableBackCulling();
+	}
 	for (unsigned int i = 0; i < texModel->getModelTex()->getNumTextures(); i++) {
 		shader->setInt(("textureSampler" + std::to_string(i)).c_str(), i);
 		glActiveTexture(GL_TEXTURE0 + i);
@@ -33,6 +36,7 @@ void EntityRenderer::prepareTexturedModel(TexturedModel *texModel) {
 }
 
 void EntityRenderer::unbindTexturedModel() {
+	enableBackCulling();
 	glDisableVertexAttribArray(0);
 	glDisableVertexAttribArray(1);
 	glDisableVertexAttribArray(2);

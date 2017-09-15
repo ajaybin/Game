@@ -69,6 +69,9 @@
     <ClCompile Include="TerrainRenderer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="BaseRenderer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="shaderTerrain.vert">
@@ -133,6 +136,9 @@
     <ClInclude Include="TerrainRenderer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="BaseRenderer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\container.jpg">
@@ -147,6 +153,15 @@
     <Image Include="res\grass.jpg">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="res\fern.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\grassTexture.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\TexturesCom_RooftilesSlate0118_1_XL.jpg.png">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <Object Include="res\stall.obj">
@@ -156,6 +171,12 @@
       <Filter>Resource Files</Filter>
     </Object>
     <Object Include="res\dragon.obj">
+      <Filter>Resource Files</Filter>
+    </Object>
+    <Object Include="res\fern.obj">
+      <Filter>Resource Files</Filter>
+    </Object>
+    <Object Include="res\grassModel.obj">
       <Filter>Resource Files</Filter>
     </Object>
   </ItemGroup>

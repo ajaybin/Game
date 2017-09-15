@@ -1,7 +1,7 @@
 #ifndef ENTITYRENDERER_H
 #define ENTITYRENDERER_H
+#include <BaseRenderer.h>
 #include <string>
-#include <glad\glad.h>
 #include <RawModel.h>
 #include <TexturedModel.h>
 #include <Entity.h>
@@ -11,7 +11,7 @@
 #include <Light.h>
 #include <map>
 using namespace std;
-class EntityRenderer {
+class EntityRenderer : private BaseRenderer{
 	StaticShader *shader;
 public:
 	EntityRenderer(StaticShader *shader);

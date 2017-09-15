@@ -117,6 +117,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="BaseRenderer.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="glad.c" />
@@ -143,6 +144,7 @@
     <None Include="shaderTerrain.vert" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BaseRenderer.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="Light.h" />
@@ -163,14 +165,23 @@
   <ItemGroup>
     <Image Include="res\awesomeface.png" />
     <Image Include="res\container.jpg" />
+    <Image Include="res\fern.png" />
     <Image Include="res\grass.jpg" />
+    <Image Include="res\grassTexture.png" />
     <Image Include="res\stallTexture.png" />
+    <Image Include="res\TexturesCom_RooftilesSlate0118_1_XL.jpg.png" />
   </ItemGroup>
   <ItemGroup>
     <Object Include="res\cube.obj">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </Object>
     <Object Include="res\dragon.obj">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </Object>
+    <Object Include="res\fern.obj">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </Object>
+    <Object Include="res\grassModel.obj">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </Object>
     <Object Include="res\stall.obj">

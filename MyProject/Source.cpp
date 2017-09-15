@@ -1,6 +1,7 @@
 #include <iostream>
 #include <random>
 #include <MasterRenderer.h>
+#include <BaseRenderer.h>
 using namespace std;
 
 const unsigned int WIDTH = 1280;
@@ -66,11 +67,16 @@ int main() {
 	Light *light = new Light(glm::vec3(0.0f, 0.0f, 5.0f), glm::vec3(1.0f, 1.0f, 1.0f));;
 	camera = new Camera(glm::vec3(0.0f, 5.0f, 10.0f), glm::vec3(0.0f, 0.0f, -1.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 
-	RawModel model = loader->loadObjFromFile("res/cube.obj");
+	RawModel model = loader->loadObjFromFile("res/fern.obj");
 	ModelTex *tex = new ModelTex(32, 0.5);
-	tex->addTexture(loader->loadTexture("res/awesomeface.png"));
+	tex->addTexture(loader->loadTexture("res/fern.png"));
+	tex->isTransparent = true;
 	TexturedModel *texModel = new TexturedModel(&model, tex);
-
+	RawModel grassModel = loader->loadObjFromFile("res/grassModel.obj");
+	ModelTex *gTex = new ModelTex(32, 0.1f);
+	gTex->addTexture(loader->loadTexture("res/grassTexture.png"));
+	gTex->isTransparent = true;
+	TexturedModel *grassTexModel = new TexturedModel(&grassModel, gTex);
 	//Wow much confuse C++11
 	std::random_device rd;
 	std::mt19937 gen(rd());
@@ -78,10 +84,18 @@ int main() {
 
 	std::vector<Entity> entityVector;
 	for (int i = 0; i < 200; i++) {
-		float x = ((float)dis(gen) * 100) - 50;
-		float y = ((float)dis(gen) * 100) - 50;
-		float z = ((float)dis(gen) * 100) - 50;
-		Entity entity(texModel, glm::vec3(x, y, z), (float)dis(gen) * 180.0f, (float)dis(gen) * 180.0f, 0, glm::vec3(1.0f, 1.0f, 1.0f));
+		float x = ((float)dis(gen) * 800) - 400;
+		float y = 0.0f;
+		float z = ((float)dis(gen) * 800) - 400;
+		Entity entity(texModel, glm::vec3(x, y, z), 0.0f, (float)dis(gen) * 180.0f, 0, glm::vec3(1.0f, 1.0f, 1.0f));
+		entityVector.push_back(entity);
+	}
+
+	for (int i = 0; i < 2000; i++) {
+		float x = ((float)dis(gen) * 800) - 400;
+		float y = 0.0f;
+		float z = ((float)dis(gen) * 800) - 400;
+		Entity entity(grassTexModel, glm::vec3(x, y, z), 0.0f, (float)dis(gen) * 180.0f, 0, glm::vec3(1.0f, 1.0f, 1.0f));
 		entityVector.push_back(entity);
 	}
 
@@ -120,7 +134,9 @@ int main() {
 	delete loader;
 	delete tex;
 	delete grassTex;
-	delete texModel;
+	delete gTex;
+	delete texModel; 
+	delete grassTexModel;
 	delete renderer;
 	delete camera;
 	delete light;

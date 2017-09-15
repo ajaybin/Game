@@ -23,7 +23,10 @@ void main()
 	vec3 reflectVector = reflect(-lightVector, surfaceNormal);
 	float spec = pow(max(dot(reflectVector, toCameraVector), 0.0), shineFactor);
 	vec3 specular = spec * reflectivity * lightColour;
-
-    fragColor = vec4(diffuse + ambient, 1.0f) * texture(textureSampler0, passTexCoords) + vec4(specular, 1.0f);
+	vec4 texColour = texture(textureSampler0, passTexCoords);
+	if(texColour.a < 0.5) {
+	  discard;
+	}
+    fragColor = vec4(diffuse + ambient, 1.0f) * texColour + vec4(specular, 1.0f);
 }
 )"
