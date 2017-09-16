@@ -4,6 +4,7 @@ in vec2 passTexCoords;
 in vec3 surfaceNormal;
 in vec3 lightVector;
 in vec3 toCameraVector;
+in float visibility;
 
 out vec4 fragColor;
 
@@ -12,6 +13,7 @@ uniform sampler2D textureSampler1;
 uniform vec3 lightColour;
 uniform float reflectivity;
 uniform float shineFactor;
+uniform vec3 skyColour;
 void main()
 {
     float normalDotLight = dot(surfaceNormal, lightVector);
@@ -28,5 +30,6 @@ void main()
 	  discard;
 	}
     fragColor = vec4(diffuse + ambient, 1.0f) * texColour + vec4(specular, 1.0f);
+	fragColor = mix(vec4(skyColour,1.0),fragColor, visibility);
 }
 )"

@@ -32,6 +32,7 @@ void MasterRenderer::render(Camera *camera, Light *light) {
 	shader->setMat4("viewMatrix", viewMatrix);
 	shader->setMat4("projectionMatrix", projectionMatrix);
 	shader->setVec3("cameraPosition", camera->position);
+	shader->setVec3("skyColour", glm::vec3(RED, GREEN, BLUE));
 	entityRenderer->render(entities);
 	shader->end();
 
@@ -41,6 +42,7 @@ void MasterRenderer::render(Camera *camera, Light *light) {
 	terrainShader->setMat4("viewMatrix", viewMatrix);
 	terrainShader->setMat4("projectionMatrix", projectionMatrix);
 	terrainShader->setVec3("cameraPosition", camera->position);
+	terrainShader->setVec3("skyColour", glm::vec3(RED, GREEN, BLUE));
 	terrainRenderer->render(terrains);
 	terrainShader->end();
 
@@ -66,6 +68,7 @@ void MasterRenderer::addTerrain(Terrain & terrain) {
 
 void MasterRenderer::prepare() {
 	glEnable(GL_DEPTH_TEST);
-	glClearColor(0.2f, 0.0f, 0.0f, 1.0f);
+	//glClearColor(0.53f, 0.80f, 0.98f, 1.0f);
+	glClearColor(RED, GREEN, BLUE, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }

@@ -8,6 +8,10 @@ out vec2 passTexCoords;
 out vec3 surfaceNormal;
 out vec3 lightVector;
 out vec3 toCameraVector;
+out float visibility;
+
+const float density = 0.0075;
+const float gradient = 5.0;
 
 uniform mat4 modelMatrix;
 uniform mat4 projectionMatrix;
@@ -18,12 +22,17 @@ uniform vec3 cameraPosition;
 void main()
 {
     vec4 vertexWorldPosition = modelMatrix * vec4(aPos, 1.0);
-    gl_Position = projectionMatrix * viewMatrix * vertexWorldPosition;
+	vec4 positionFromCam = viewMatrix * vertexWorldPosition;
+    gl_Position = projectionMatrix * positionFromCam;
 	passTexCoords = texCoords;
 
 	mat3 normalMatrix = mat3(transpose(inverse(modelMatrix)));
 	surfaceNormal = normalize(normalMatrix * normal);
 	lightVector = normalize(lightPosition - vertexWorldPosition.xyz);
 	toCameraVector = normalize(cameraPosition - vertexWorldPosition.xyz);
+
+	float distance = length(positionFromCam.xyz);
+	visibility = exp(-pow((distance * density), gradient));
+	visibility = clamp(visibility, 0, 1);
 }
 )"

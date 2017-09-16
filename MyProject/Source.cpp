@@ -64,7 +64,7 @@ int main() {
 	glfwSetScrollCallback(window, scroll_callback);
 
 	Loader *loader = new Loader(); 
-	Light *light = new Light(glm::vec3(0.0f, 0.0f, 5.0f), glm::vec3(1.0f, 1.0f, 1.0f));;
+	Light *light = new Light(glm::vec3(0.0f, 100.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f));;
 	camera = new Camera(glm::vec3(0.0f, 5.0f, 10.0f), glm::vec3(0.0f, 0.0f, -1.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 
 	RawModel model = loader->loadObjFromFile("res/fern.obj");
@@ -72,11 +72,14 @@ int main() {
 	tex->addTexture(loader->loadTexture("res/fern.png"));
 	tex->isTransparent = true;
 	TexturedModel *texModel = new TexturedModel(&model, tex);
+
 	RawModel grassModel = loader->loadObjFromFile("res/grassModel.obj");
 	ModelTex *gTex = new ModelTex(32, 0.1f);
 	gTex->addTexture(loader->loadTexture("res/grassTexture.png"));
 	gTex->isTransparent = true;
+	gTex->useFakeLight = true;
 	TexturedModel *grassTexModel = new TexturedModel(&grassModel, gTex);
+
 	//Wow much confuse C++11
 	std::random_device rd;
 	std::mt19937 gen(rd());

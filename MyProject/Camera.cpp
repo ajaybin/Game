@@ -51,7 +51,7 @@ void Camera::scrollCallback(double xoffset, double yoffset) {
 }
 
 void Camera::moveCamera(GLFWwindow *window, float deltaTime) {
-	float cameraSpeed = 5.5f * deltaTime;
+	float cameraSpeed = 10.5f * deltaTime;
 	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
 		position -= cameraSpeed * target;
 	else if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)

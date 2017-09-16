@@ -9,6 +9,7 @@ class ModelTex {
 
 public:
 	bool isTransparent;
+	bool useFakeLight;
 	ModelTex(float shineFactor, float reflectivity);
 	void addTexture(unsigned int texture);
 	unsigned int getNumTextures();

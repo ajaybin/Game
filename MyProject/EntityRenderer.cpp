@@ -33,6 +33,7 @@ void EntityRenderer::prepareTexturedModel(TexturedModel *texModel) {
 	}
 	shader->setFloat("reflectivity", texModel->getModelTex()->getReflectivity());
 	shader->setFloat("shineFactor", texModel->getModelTex()->getShineFactor());
+	shader->setFloat("useFakeLight", texModel->getModelTex()->useFakeLight);
 }
 
 void EntityRenderer::unbindTexturedModel() {
