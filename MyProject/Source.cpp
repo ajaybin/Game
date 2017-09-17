@@ -2,6 +2,7 @@
 #include <random>
 #include <MasterRenderer.h>
 #include <BaseRenderer.h>
+#include <Player.h>
 using namespace std;
 
 const unsigned int WIDTH = 1280;
@@ -12,6 +13,7 @@ float lastFrame = 0.0f; // Time of last frame
 
 
 Camera *camera;
+Player *player;
 
 void framebuffer_resize_callback(GLFWwindow* window, int width, int height) {
 	glViewport(0, 0, width, height);
@@ -25,10 +27,11 @@ void processInput(GLFWwindow* window) {
 	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
 		glfwSetWindowShouldClose(window, GL_TRUE);
 	else if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS ||
-			 glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS ||
-		 	 glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS ||
-		  	 glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
-		camera->moveCamera(window, deltaTime);
+		glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS ||
+		glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS ||
+		glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) {
+		//camera->moveCamera(window, deltaTime);
+	}
 }
 
 void scroll_callback(GLFWwindow* window, double xoffset, double yoffset) {
@@ -67,6 +70,13 @@ int main() {
 	Light *light = new Light(glm::vec3(0.0f, 100.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f));;
 	camera = new Camera(glm::vec3(0.0f, 5.0f, 10.0f), glm::vec3(0.0f, 0.0f, -1.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 
+
+	RawModel bunnyModel = loader->loadObjFromFile("res/cube.obj");
+	ModelTex *bunnyTex = new ModelTex(32, 0.2f);
+	bunnyTex->addTexture(loader->loadTexture("res/slateRoof.png"));
+	TexturedModel *bunnyTexModel = new TexturedModel(&bunnyModel, bunnyTex);
+	player = new Player(bunnyTexModel, glm::vec3(0.0f, 0.5f, 0.0f), 0.0f, 0.0f, 0.0f, glm::vec3(1.0f, 1.0f, 1.0f));
+
 	RawModel model = loader->loadObjFromFile("res/fern.obj");
 	ModelTex *tex = new ModelTex(32, 0.5);
 	tex->addTexture(loader->loadTexture("res/fern.png"));
@@ -87,23 +97,27 @@ int main() {
 
 	std::vector<Entity> entityVector;
 	for (int i = 0; i < 200; i++) {
-		float x = ((float)dis(gen) * 800) - 400;
+		float x = ((float)dis(gen) * 1600) - 800;
 		float y = 0.0f;
-		float z = ((float)dis(gen) * 800) - 400;
+		float z = ((float)dis(gen) * 1600) - 800;
 		Entity entity(texModel, glm::vec3(x, y, z), 0.0f, (float)dis(gen) * 180.0f, 0, glm::vec3(1.0f, 1.0f, 1.0f));
 		entityVector.push_back(entity);
 	}
 
 	for (int i = 0; i < 2000; i++) {
-		float x = ((float)dis(gen) * 800) - 400;
+		float x = ((float)dis(gen) * 1600) - 800;
 		float y = 0.0f;
-		float z = ((float)dis(gen) * 800) - 400;
+		float z = ((float)dis(gen) * 1600) - 800;
 		Entity entity(grassTexModel, glm::vec3(x, y, z), 0.0f, (float)dis(gen) * 180.0f, 0, glm::vec3(1.0f, 1.0f, 1.0f));
 		entityVector.push_back(entity);
 	}
 
 	ModelTex *grassTex = new ModelTex(32, 0.1f);
 	grassTex->addTexture(loader->loadTexture("res/grass.jpg"));
+	grassTex->addTexture(loader->loadTexture("res/mud.png"));
+	grassTex->addTexture(loader->loadTexture("res/grassFlowers.png"));
+	grassTex->addTexture(loader->loadTexture("res/path.png"));
+	grassTex->addTexture(loader->loadTexture("res/blendmap1.png"));
 	Terrain terrain1(-1, 0, loader, grassTex);
 	Terrain terrain2(0, 0, loader, grassTex);
 	Terrain terrain3(-1, -1, loader, grassTex);
@@ -116,12 +130,14 @@ int main() {
 		deltaTime = currentFrame - lastFrame;
 		lastFrame = currentFrame;
 
+		player->move(window, deltaTime);
 		//Input
 		processInput(window);
 		//Render
 		for (Entity entity : entityVector) {
 			renderer->addEntity(entity);
 		}
+		renderer->addEntity(*player);
 		renderer->addTerrain(terrain1);
 		renderer->addTerrain(terrain2);
 		renderer->addTerrain(terrain3);
@@ -143,6 +159,7 @@ int main() {
 	delete renderer;
 	delete camera;
 	delete light;
+	delete player;
 	return 0;
 }
 

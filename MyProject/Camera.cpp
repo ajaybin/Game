@@ -21,10 +21,9 @@ void Camera::mouseCallback(double xpos, double ypos) {
 	float yOffset = (float)prevY - (float)ypos;
 	prevX = xpos;
 	prevY = ypos;
-	float sensitivity = 0.08f;
 
-	xOffset *= sensitivity;
-	yOffset *= sensitivity;
+	xOffset *= MOUSE_SENSITIVITY;
+	yOffset *= MOUSE_SENSITIVITY;
 
 	yaw = std::fmod(yaw + xOffset, 360.0f);
 	pitch += yOffset;
@@ -51,7 +50,7 @@ void Camera::scrollCallback(double xoffset, double yoffset) {
 }
 
 void Camera::moveCamera(GLFWwindow *window, float deltaTime) {
-	float cameraSpeed = 10.5f * deltaTime;
+	float cameraSpeed = CAMERA_SPEED * deltaTime;
 	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
 		position -= cameraSpeed * target;
 	else if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)

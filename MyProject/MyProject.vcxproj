@@ -126,6 +126,7 @@
     <ClCompile Include="MasterRenderer.cpp" />
     <ClCompile Include="Maths.cpp" />
     <ClCompile Include="ModelTex.cpp" />
+    <ClCompile Include="Player.cpp" />
     <ClCompile Include="RawModel.cpp" />
     <ClCompile Include="EntityRenderer.cpp" />
     <ClCompile Include="ShaderProgram.cpp" />
@@ -152,6 +153,7 @@
     <ClInclude Include="MasterRenderer.h" />
     <ClInclude Include="Maths.h" />
     <ClInclude Include="ModelTex.h" />
+    <ClInclude Include="Player.h" />
     <ClInclude Include="RawModel.h" />
     <ClInclude Include="EntityRenderer.h" />
     <ClInclude Include="ShaderProgram.h" />
@@ -164,14 +166,21 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\awesomeface.png" />
+    <Image Include="res\blendmap1.png" />
     <Image Include="res\container.jpg" />
     <Image Include="res\fern.png" />
     <Image Include="res\grass.jpg" />
+    <Image Include="res\grassFlowers.png" />
     <Image Include="res\grassTexture.png" />
+    <Image Include="res\mud.png" />
+    <Image Include="res\path.png" />
     <Image Include="res\stallTexture.png" />
-    <Image Include="res\TexturesCom_RooftilesSlate0118_1_XL.jpg.png" />
+    <Image Include="res\slateRoof.png" />
   </ItemGroup>
   <ItemGroup>
+    <Object Include="res\bunny.obj">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </Object>
     <Object Include="res\cube.obj">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </Object>

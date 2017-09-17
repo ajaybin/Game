@@ -9,6 +9,7 @@
 #include <glm/glm.hpp>
 #include <string>
 #include <sstream>
+#include <thread>
 using namespace std;
 
 class Loader {
