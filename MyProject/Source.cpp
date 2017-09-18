@@ -150,16 +150,7 @@ int main() {
 	renderer->cleanUp();
 	loader->cleanUp();
 	glfwTerminate();
-	delete loader;
-	delete tex;
-	delete grassTex;
-	delete gTex;
-	delete texModel; 
-	delete grassTexModel;
-	delete renderer;
-	delete camera;
-	delete light;
-	delete player;
+	delete loader, tex, grassTex, gTex, texModel, grassTexModel, renderer, camera, light, player;
 	return 0;
 }
 
